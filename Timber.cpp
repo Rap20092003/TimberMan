@@ -144,13 +144,18 @@ int main()
 	//GAME LOOP;
 	while(window.isOpen())
 	{
-		//score++;
 		Event event1;
 			while (window.pollEvent(event1))
 			{
 				if(event1.type == event1.Closed)
 				{
 					window.close();
+				}
+
+				if (event1.type== Event::KeyReleased&& !paused)
+				{
+					acceptInput=true;
+					spriteAxe.setPosition(2000,spriteAxe.getPosition().y);
 				}
 			}
 		if(Keyboard::isKeyPressed(Keyboard::Escape))
@@ -195,7 +200,7 @@ int main()
 				PlayerSide = side::LEFT;
 				score++;
 				timeRemaining += (0.15+2/score);
-				spriteAxe.setPosition(AXE_POSITION_LEFT, spriteAxe.getPosition().x);
+				spriteAxe.setPosition(AXE_POSITION_LEFT, spriteAxe.getPosition().y);
 				spritePlayer.setPosition(580,720);
 				updateBranches(score);
 				logActive = true;
@@ -204,7 +209,7 @@ int main()
 				acceptInput =  false;
 
 			}
-			
+
 		}
 
 		if(!paused){
@@ -310,6 +315,17 @@ int main()
 
 			else
 				spriteBranches[i].setPosition(3000,height);
+		}
+
+		if(logActive)
+		{
+			spriteLog.setPosition(spriteLog.getPosition().x+logSpeedX*dt.asSeconds()
+									  ,spriteLog.getPosition().y+logSpeedY*dt.asSeconds());
+				if(spriteLog.getPosition().x<100 || spriteLog.getPosition().x>2000)
+				{
+					logActive=false;
+					spriteLog.setPosition(800,600);
+				}
 		}
 
 
